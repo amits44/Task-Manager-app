@@ -1,0 +1,137 @@
+.card {
+  background: var(--bg-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color var(--transition), transform var(--transition), box-shadow var(--transition);
+  position: relative;
+}
+
+.card:hover {
+  border-color: var(--border-2);
+  transform: translateY(-2px);
+  box-shadow: var(--shadow);
+}
+
+/* Stage left-border accent */
+.stage_todo       { border-left: 3px solid var(--todo); }
+.stage_in_progress{ border-left: 3px solid var(--progress); }
+.stage_done       { border-left: 3px solid var(--done); opacity: 0.85; }
+
+.topRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+/* Priority badge */
+.priority {
+  font-size: 11px;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 20px;
+  letter-spacing: 0.3px;
+  text-transform: uppercase;
+  flex-shrink: 0;
+}
+
+.pri_low    { background: rgba(74,158,255,0.12); color: var(--todo); }
+.pri_medium { background: rgba(245,166,35,0.12); color: var(--progress); }
+.pri_high   { background: rgba(255,90,90,0.12);  color: var(--danger); }
+
+/* Action buttons */
+.actions {
+  display: flex;
+  gap: 4px;
+  opacity: 0;
+  transition: opacity var(--transition);
+}
+
+.card:hover .actions,
+.card:focus-within .actions {
+  opacity: 1;
+}
+
+.iconBtn {
+  background: var(--bg-4);
+  border: 1px solid var(--border);
+  color: var(--text-2);
+  width: 26px;
+  height: 26px;
+  border-radius: var(--radius-sm);
+  font-size: 14px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  flex-shrink: 0;
+}
+
+.iconBtn:hover:not(:disabled) {
+  background: var(--border);
+  color: var(--text);
+}
+
+.iconBtn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.iconBtnAccent:hover:not(:disabled) {
+  border-color: var(--accent);
+  color: var(--accent);
+}
+
+.iconBtnDanger {
+  border-color: var(--danger) !important;
+  color: var(--danger) !important;
+  background: var(--danger-bg) !important;
+}
+
+/* Title */
+.title {
+  font-size: 14.5px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+.titleDone {
+  text-decoration: line-through;
+  color: var(--text-3);
+}
+
+/* Description */
+.desc {
+  font-size: 13px;
+  color: var(--text-2);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  word-break: break-word;
+}
+
+/* Footer */
+.footer {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.due {
+  font-size: 11.5px;
+  font-weight: 500;
+}
+
+.due_normal  { color: var(--text-3); }
+.due_soon    { color: var(--progress); }
+.due_overdue { color: var(--danger); }
