@@ -135,7 +135,7 @@ export default function BoardPage() {
       <main className={styles.main}>
         {error && (
           <div className={styles.errorBar}>
-            {error}
+            {error.message || error}
             <button onClick={() => fetchTasks()}>Retry</button>
           </div>
         )}

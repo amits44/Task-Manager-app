@@ -21,7 +21,7 @@ export default function RegisterPage() {
       await register(form.name, form.email, form.password);
       navigate('/board');
     } catch (err) {
-      setError(err.response?.data?.error || 'Something went wrong. Please try again.');
+      setError(err.response?.data?.error || err.message || 'Something went wrong')
     } finally {
       setLoading(false);
     }
