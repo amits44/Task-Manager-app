@@ -1,8 +1,9 @@
 const { validationResult } = require('express-validator');
 const Task = require('../models/Task');
 const { createError } = require('../middleware/errorHandler');
+const mongoose = require('mongoose');
 
-// GET /api/tasks
+
 const getTasks = async (req, res, next) => {
   try {
     const { stage, priority, search } = req.query;
@@ -19,7 +20,6 @@ const getTasks = async (req, res, next) => {
 
     const tasks = await Task.find(filter).sort({ order: 1, createdAt: -1 });
 
-    // Group by stage for convenience
     const grouped = {
       todo: [],
       in_progress: [],
@@ -102,7 +102,7 @@ const deleteTask = async (req, res, next) => {
 const getStats = async (req, res, next) => {
   try {
     const stats = await Task.aggregate([
-      { $match: { user: req.user._id } },
+      { $match: { user: new mongoose.Types.ObjectId(req.user._id) } },
       { $group: { _id: '$stage', count: { $sum: 1 } } },
     ]);
 

@@ -53,7 +53,6 @@ const taskSchema = new mongoose.Schema(
   }
 );
 
-// Compound index for efficient user+stage queries
 taskSchema.index({ user: 1, stage: 1, order: 1 });
 
 module.exports = mongoose.model('Task', taskSchema);
