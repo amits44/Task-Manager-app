@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useEffect, useState, useCallback, useRef } from 'react';
 import { useAuth }  from '../context/AuthContext';
 import { useTasks } from '../context/TaskContext';
 import KanbanColumn from '../components/KanbanColumn';
@@ -14,20 +14,20 @@ export default function BoardPage() {
 
   const [search,      setSearch]      = useState('');
   const [debouncedQ,  setDebouncedQ]  = useState('');
-  const [modal,       setModal]       = useState(null); // null | { mode: 'create'|'edit', task?, stage? }
+  const [modal,       setModal]       = useState(null); 
 
-  // Initial load
+
   useEffect(() => {
     fetchTasks();
     fetchStats();
   }, []);
 
-  // Debounce search
+  
   useEffect(() => {
     const t = setTimeout(() => setDebouncedQ(search), 350);
     return () => clearTimeout(t);
   }, [search]);
-
+  const isMounted = useRef(false);
   useEffect(() => {
     fetchTasks(debouncedQ ? { search: debouncedQ } : {});
   }, [debouncedQ]);
@@ -58,7 +58,7 @@ export default function BoardPage() {
 
   return (
     <div className={styles.page}>
-      {/* ── Sidebar / Header ──────────────────────────────── */}
+      {/* ── Sidebar / Header */}
       <header className={styles.header}>
         <div className={styles.headerLeft}>
           <div className={styles.logo}>
@@ -131,7 +131,7 @@ export default function BoardPage() {
         </div>
       </header>
 
-      {/* ── Main Board ────────────────────────────────────── */}
+      {/* ── Main Board */}
       <main className={styles.main}>
         {error && (
           <div className={styles.errorBar}>
@@ -162,7 +162,7 @@ export default function BoardPage() {
         )}
       </main>
 
-      {/* ── Task Modal ────────────────────────────────────── */}
+      {/* ── Task Modal */}
       {modal && (
         <TaskModal
           task={modal.task}
