@@ -42,6 +42,16 @@ export const TaskProvider = ({ children }) => {
     const { data } = await api.patch(`/tasks/${id}`, payload);
     const updated = data.task;
 
+    let oldStage = null;
+    setTasks((prev) => {
+      const found = Object.values(prev).flat().find((t) => t._id === id);
+      if (found) oldStage = found.stage;
+      const next = { ...prev };
+      Object.keys(next).forEach((s) => { next[s] = next[s].filter((t) => t._id !== id); });
+      next[updated.stage] = [updated, ...next[updated.stage]];
+      return next;
+    });
+
     setTasks((prev) => {
       const next = { ...prev };
       Object.keys(next).forEach((stage) => {
@@ -52,21 +62,15 @@ export const TaskProvider = ({ children }) => {
     });
 
     setStats((s) => {
-      const oldTask = Object.values(prev ?? {})
-        .flat()
-        .find((t) => t._id === id);
-      if (oldTask && oldTask.stage !== updated.stage) {
-        return {
-          ...s,
-          [oldTask.stage]: Math.max(0, s[oldTask.stage] - 1),
-          [updated.stage]: s[updated.stage] + 1,
-        };
+      if (oldStage && oldStage !== updated.stage) {
+        return { ...s, [oldStage]: Math.max(0, s[oldStage] - 1), [updated.stage]: s[updated.stage] + 1 };
       }
       return s;
     });
 
-    return updated;
-  }, []);
+  return updated;
+}, []);
+
 
   const deleteTask = useCallback(async (id, stage) => {
     await api.delete(`/tasks/${id}`);
